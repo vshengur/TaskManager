@@ -1,0 +1,33 @@
+services:
+  taskmanager.db:
+    image: postgres:16-alpine
+    container_name: taskmanager-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: taskmanager
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - taskmanager-net
+
+  taskmanager.api:
+    image: ${DOCKER_REGISTRY-}taskmanagerapi
+    build:
+      context: .
+      dockerfile: src/TaskManager.Api/Dockerfile
+    depends_on:
+      - taskmanager.db
+    networks:
+      - taskmanager-net
+
+volumes:
+  dbdata:
+
+networks:
+  taskmanager-net:
+    external: false
+    name: taskmanager-net  

@@ -1,0 +1,9 @@
+services:
+  taskmanager.api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_HTTP_PORTS: 8080
+      ConnectionStrings__Postgres: "Host=taskmanager-db;Port=5432;Database=taskmanager;Username=postgres;Password=postgres"
+      Jwt__Secret: "please-change-me-to-a-strong-secret"
+    ports:
+      - 53089:8080
